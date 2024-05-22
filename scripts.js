@@ -8,9 +8,23 @@ const constraints = {
 };
 
 const getMicAndCamera = async (e) => {
+  if (!stream) {
+    console.log("stream is loading");
+    return;
+  }
   try {
     stream = await navigator.mediaDevices.getUserMedia(constraints);
     console.log(stream);
+    changeButtons([
+      "green",
+      "blue",
+      "blue",
+      "grey",
+      "grey",
+      "grey",
+      "grey",
+      "grey",
+    ]);
   } catch {
     //user denies access to constraints
     console.log("User reject constraints");
@@ -18,9 +32,23 @@ const getMicAndCamera = async (e) => {
 };
 
 const showMyFeed = () => {
+  if (!stream) {
+    console.log("stream is loading");
+    return;
+  }
   videoEl.srcObject = stream; //this will set our midia stream (stream) to our <video/> tag
   const tracks = stream.getTracks();
   console.log("Tracks", tracks);
+  changeButtons([
+    "green",
+    "green",
+    "blue",
+    "blue",
+    "blue",
+    "grey",
+    "grey",
+    "blue",
+  ]);
 };
 
 const stopMyFeed = (e) => {
@@ -29,6 +57,16 @@ const stopMyFeed = (e) => {
     console.log("Track", idx, track);
     track.stop();
   });
+  changeButtons([
+    "green",
+    "blue",
+    "blue",
+    "grey",
+    "grey",
+    "grey",
+    "grey",
+    "grey",
+  ]);
 };
 
 const share = document
