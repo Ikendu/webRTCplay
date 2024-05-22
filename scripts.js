@@ -8,10 +8,6 @@ const constraints = {
 };
 
 const getMicAndCamera = async (e) => {
-  if (!stream) {
-    console.log("stream is loading");
-    return;
-  }
   try {
     stream = await navigator.mediaDevices.getUserMedia(constraints);
     console.log(stream);
@@ -33,7 +29,7 @@ const getMicAndCamera = async (e) => {
 
 const showMyFeed = () => {
   if (!stream) {
-    console.log("stream is loading");
+    alert("stream is loading...");
     return;
   }
   videoEl.srcObject = stream; //this will set our midia stream (stream) to our <video/> tag
@@ -52,6 +48,10 @@ const showMyFeed = () => {
 };
 
 const stopMyFeed = (e) => {
+  if (!stream) {
+    alert("stream is loading...");
+    return;
+  }
   const tracks = stream.getTracks();
   tracks.forEach((track, idx) => {
     console.log("Track", idx, track);
