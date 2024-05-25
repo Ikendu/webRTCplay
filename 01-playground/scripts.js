@@ -80,3 +80,7 @@ const showVideo = document
 const stopVideo = document
   .querySelector("#stop-video")
   .addEventListener("click", (e) => stopMyFeed(e));
+
+const changSize = document
+  .querySelector("#change-size")
+  .addEventListener("click", (e) => changeVideoSize(e));
