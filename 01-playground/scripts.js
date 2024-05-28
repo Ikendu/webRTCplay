@@ -84,3 +84,15 @@ const stopVideo = document
 const changSize = document
   .querySelector("#change-size")
   .addEventListener("click", (e) => changeVideoSize(e));
+
+const startRec = document
+  .querySelector("#start-record")
+  .addEventListener("click", (e) => startRecording(e));
+
+const stopRec = document
+  .querySelector("#stop-record")
+  .addEventListener("click", (e) => stopRecording(e));
+
+const playRec = document
+  .querySelector("#play-record")
+  .addEventListener("click", (e) => playRecording(e));
