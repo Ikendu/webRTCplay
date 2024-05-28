@@ -2,6 +2,10 @@ let mediaRecorder;
 let recordedBlobs;
 
 const startRecording = (e) => {
+  if (!stream) {
+    alert("No ongoing stream to record");
+    return;
+  }
   console.log("Start Recording");
 
   recordedBlobs = []; //an array to hold the blob for playback
@@ -14,11 +18,34 @@ const startRecording = (e) => {
     recordedBlobs.push(e.data);
   };
   mediaRecorder.start();
+  changeButtons([
+    "green",
+    "green",
+    "blue",
+    "blue",
+    "green",
+    "blue",
+    "grey",
+    "blue",
+  ]);
 };
 
 const stopRecording = (e) => {
+  if (!mediaRecorder) {
+    alert("No ongoing recording to stop");
+  }
   console.log("Stop Recording");
   mediaRecorder.stop();
+  changeButtons([
+    "green",
+    "green",
+    "blue",
+    "blue",
+    "green",
+    "green",
+    "green",
+    "blue",
+  ]);
 };
 
 const playRecording = (e) => {
@@ -26,4 +53,6 @@ const playRecording = (e) => {
   const superBuffer = new Blob(recordedBlobs);
   const recordedVideoEl = document.querySelector("#other-video");
   recordedVideoEl.src = window.URL.createObjectURL(superBuffer);
+  recordedVideoEl.controls = true; // for playing, pausing and stopping the video
+  recordedVideoEl.play();
 };
