@@ -1,6 +1,7 @@
 const videoEl = document.querySelector("#my-video");
 
-let stream = null; //initial stream variable that can be used anywhere
+let stream = null; //init stream variable that can be used anywhere
+let mediaStream = null; //init stream variable for sharing of screens
 
 const constraints = {
   audio: true, //use your headphones or be perpared for feedback
@@ -96,3 +97,7 @@ const stopRec = document
 const playRec = document
   .querySelector("#play-record")
   .addEventListener("click", (e) => playRecording(e));
+
+document
+  .querySelector("#share-screen")
+  .addEventListener("click", (e) => shareScreen(e));

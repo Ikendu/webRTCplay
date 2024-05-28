@@ -2,7 +2,7 @@ let mediaRecorder;
 let recordedBlobs;
 
 const startRecording = (e) => {
-  if (!stream) {
+  if (!mediaStream) {
     alert("No ongoing stream to record");
     return;
   }
@@ -10,7 +10,7 @@ const startRecording = (e) => {
 
   recordedBlobs = []; //an array to hold the blob for playback
 
-  mediaRecorder = new MediaRecorder(stream); //make a media recorder from the constructor
+  mediaRecorder = new MediaRecorder(mediaStream); //make a media recorder from the constructor
 
   mediaRecorder.ondataavailable = (e) => {
     //   ondataavailable will run when the stream ends of stops or we spcifically ask for it
@@ -43,7 +43,7 @@ const stopRecording = (e) => {
     "blue",
     "green",
     "green",
-    "green",
+    "blue",
     "blue",
   ]);
 };
@@ -55,4 +55,14 @@ const playRecording = (e) => {
   recordedVideoEl.src = window.URL.createObjectURL(superBuffer);
   recordedVideoEl.controls = true; // for playing, pausing and stopping the video
   recordedVideoEl.play();
+  changeButtons([
+    "green",
+    "green",
+    "blue",
+    "blue",
+    "green",
+    "green",
+    "green",
+    "blue",
+  ]);
 };
