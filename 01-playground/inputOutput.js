@@ -22,7 +22,6 @@ const getDevices = async () => {
 
 const changeAudioInput = async (e) => {
   const deviceId = e.target.value;
-
   const newConstraint = {
     audio: { deviceId: { exact: deviceId } },
     video: true,
@@ -32,7 +31,23 @@ const changeAudioInput = async (e) => {
   const track = stream.getTracks();
   console.log(track);
 };
-const changeAudioOutput = async (e) => {};
-const changeVideoInput = async (e) => {};
+
+const changeAudioOutput = async (e) => {
+  const deviceId = e.target.value;
+  const newConstraint = {
+    audio: { deviceId: { exact: deviceId } },
+    video: true,
+  };
+  stream = await navigator.mediaDevices.getUserMedia(newConstraint);
+  console.log(stream);
+  const track = stream.getTracks();
+};
+const changeVideoInput = async (e) => {
+  const deviceId = e.target.value;
+  const newConstraint = {
+    audio: true,
+    video: { deviceId: { exact: deviceId } },
+  };
+};
 
 getDevices();
