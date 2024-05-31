@@ -2,7 +2,8 @@ let mediaRecorder;
 let recordedBlobs;
 
 const startRecording = (e) => {
-  if (!mediaStream) {
+  //change to mediaStream during screen capture
+  if (!stream) {
     alert("No ongoing stream to record");
     return;
   }
@@ -10,7 +11,8 @@ const startRecording = (e) => {
 
   recordedBlobs = []; //an array to hold the blob for playback
 
-  mediaRecorder = new MediaRecorder(mediaStream); //make a media recorder from the constructor
+  //change to mediaStream during screen capture
+  mediaRecorder = new MediaRecorder(stream); //make a media recorder from the constructor
 
   mediaRecorder.ondataavailable = (e) => {
     //   ondataavailable will run when the stream ends of stops or we spcifically ask for it

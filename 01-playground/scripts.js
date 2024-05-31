@@ -102,14 +102,12 @@ document
   .querySelector("#share-screen")
   .addEventListener("click", (e) => shareScreen(e));
 
-document
-  .querySelector("#audio-input")
-  .addEventListener("change", (e) => changeAudioInput(e));
+//audio video devices
+const audioInputEl = document.querySelector("#audio-input");
+audioInputEl.addEventListener("change", (e) => changeAudioInput(e));
 
-document
-  .querySelector("#audio-output")
-  .addEventListener("change", (e) => changeAudioOutput(e));
+const audioOutputEl = document.querySelector("#audio-output");
+audioOutputEl.addEventListener("change", (e) => changeAudioOutput(e));
 
-document
-  .querySelector("#video-input")
-  .addEventListener("change", (e) => changeVideoInput(e));
+const videoInputEl = document.querySelector("#video-input");
+videoInputEl.addEventListener("change", (e) => changeVideoInput(e));
