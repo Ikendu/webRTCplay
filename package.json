@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "name": "webrtc",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "scripts": {
+    "dev": "nodemon signalingPeerConnection/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
