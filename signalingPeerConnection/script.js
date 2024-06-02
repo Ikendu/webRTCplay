@@ -16,12 +16,14 @@ const videoCall = async (e) => {
   localStream = stream;
 
   await createPeerConnection();
+
   //after creating peer connection
   //ctreate an offer
   try {
     console.log("creating offer....");
     const offer = await peerConnection.createOffer();
     console.log(offer);
+    peerConnection.setLocalDescription(offer);
   } catch (err) {
     console.log(err);
   }
@@ -38,7 +40,7 @@ const createPeerConnection = () => {
       peerConnection.addTrack(track, localStream);
     });
     peerConnection.addEventListener("icecandidate", (e) => {
-      console.log(".........peer connection found");
+      console.log(".........peer connection found!...........");
       console.log(e);
     });
     resolve();
