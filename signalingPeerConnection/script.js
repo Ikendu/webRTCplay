@@ -26,6 +26,7 @@ const videoCall = async (e) => {
     const offer = await peerConnection.createOffer();
     console.log(offer);
     peerConnection.setLocalDescription(offer);
+    socket.emit("newOffer", offer); //sends offer to signalingServer
   } catch (err) {
     console.log(err);
   }

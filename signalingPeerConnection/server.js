@@ -21,8 +21,9 @@ const expressServer = https.createServer({ cert, key }, app);
 //create our socket.io server
 const io = socketio(expressServer);
 
-io.on("connection", (socket) =>
-  console.log("someone has connected with " + socket.id)
-);
+io.on("connection", (socket) => {
+  console.log("someone has connected with " + socket.id);
+  socket.on("newOffer", (newOffer) => {});
+});
 
 expressServer.listen(5000, () => console.log("runing on port 5000"));
