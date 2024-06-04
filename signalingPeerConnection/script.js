@@ -1,4 +1,14 @@
-const socket = io.connect("https://localhost:5000");
+const username = prompt("Enter your name here");
+const password = prompt("Enter password");
+
+document.querySelector("#user-name").innerHTML = username;
+
+const socket = io.connect("https://localhost:5000", {
+  auth: {
+    username,
+    password,
+  },
+});
 
 const localVideoEl = document.querySelector("#local-video");
 const remoteVideo = document.querySelector("#remote-video");

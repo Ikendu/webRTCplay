@@ -21,9 +21,20 @@ const expressServer = https.createServer({ cert, key }, app);
 //create our socket.io server
 const io = socketio(expressServer);
 
+expressServer.listen(5000, () => console.log("runing on port 5000"));
+
+const offers = [
+  // offerer username
+  // offer
+  // offerIceCandidates
+  // answerer username
+  // answer
+  // answerIceCandidates
+];
+
 io.on("connection", (socket) => {
-  console.log("someone has connected with " + socket.id);
+  const username = socket.handshake.auth.username;
+  const password = socket.handshake.auth.password;
+  console.log(username, password);
   socket.on("newOffer", (newOffer) => {});
 });
-
-expressServer.listen(5000, () => console.log("runing on port 5000"));
