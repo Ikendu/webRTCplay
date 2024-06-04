@@ -1,3 +1,5 @@
+// const username = "Dav-" + Math.floor(Math.random() * 10000);
+
 const username = prompt("Enter your name here");
 const password = prompt("Enter password");
 

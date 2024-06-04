@@ -32,9 +32,30 @@ const offers = [
   // answerIceCandidates
 ];
 
+const connectedSockets = [
+  // username, socketId
+];
+
 io.on("connection", (socket) => {
   const username = socket.handshake.auth.username;
   const password = socket.handshake.auth.password;
-  console.log(username, password);
-  socket.on("newOffer", (newOffer) => {});
+
+  connectedSockets.push({ username, socketID: socket.id });
+  console.log(connectedSockets);
+
+  socket.on("newOffer", (newOffer) => {
+    offers.push({
+      offererUsername: username,
+      offer: newOffer,
+      offerIceCandidates: [],
+      answererUsername: null,
+      answer: null,
+      answerIceCandidates: [],
+    });
+    console.log(newOffer);
+
+    // sends out all connected sockets EXCPET the caller
+    // -1 gives us the most recent offer which is the last offer in the array
+    socket.broadcast.emit("newOfferAwaiting", offers.slice(-1));
+  });
 });
