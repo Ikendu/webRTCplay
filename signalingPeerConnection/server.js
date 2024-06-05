@@ -34,13 +34,15 @@ const offers = [
 ];
 
 const connectedSockets = [
-  // username, socketId
+  // username,
+  // socketId
 ];
 
 io.on("connection", (socket) => {
   const username = socket.handshake.auth.username;
   const password = socket.handshake.auth.password;
 
+  // add username and id to connectedSockets
   connectedSockets.push({ username, socketID: socket.id });
   // console.log(connectedSockets);
 
@@ -63,6 +65,7 @@ io.on("connection", (socket) => {
     // -1 gives us the most recent offer which is the last offer in the array
     socket.broadcast.emit("newOfferAwaiting", offers.slice(-1));
   });
+
   socket.on("sendIceCandidateToSignalingServer", (iceCandidateObj) => {
     const { iceCandidate, iceUsername, didIOffer } = iceCandidateObj;
     // console.log("iceCandidate", iceCandidate);

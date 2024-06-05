@@ -48,6 +48,10 @@ const videoCall = async (e) => {
   }
 };
 
+const answerOffer = (offer) => {
+  // console.log("ANSWERER", offer);
+};
+
 const createPeerConnection = () => {
   return new Promise(async (resolve, reject) => {
     //RTCPeerConnection creates the connection
