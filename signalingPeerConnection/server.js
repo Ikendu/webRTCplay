@@ -42,7 +42,12 @@ io.on("connection", (socket) => {
   const password = socket.handshake.auth.password;
 
   connectedSockets.push({ username, socketID: socket.id });
-  console.log(connectedSockets);
+  // console.log(connectedSockets);
+
+  // when a new client joins, if there is any offer available emit them to the user
+  if (offers.length) {
+    socket.emit("availableOffer", offers);
+  }
 
   socket.on("newOffer", (newOffer) => {
     offers.push({
@@ -53,11 +58,6 @@ io.on("connection", (socket) => {
       answer: null,
       answerIceCandidates: [],
     });
-
-    // when a new client joins, if there is any offer available emit them to the user
-    if (offers.length > 0) {
-      socket.emit("availableOffer", offers);
-    }
 
     // sends out all connected sockets EXCPET the caller
     // -1 gives us the most recent offer which is the last offer in the array
@@ -76,6 +76,6 @@ io.on("connection", (socket) => {
         // if the answerer is already here, emit the iceCandidates to the user
       }
     }
-    console.log("OFFERS", offers);
+    // console.log("OFFERS", offers);
   });
 });
