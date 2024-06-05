@@ -18,11 +18,12 @@ const key = fs.readFileSync("cert.key");
 // pass the key and cert to createServer securely with https
 const expressServer = https.createServer({ cert, key }, app);
 
-//create our socket.io server
+// create our socket.io server
 const io = socketio(expressServer);
 
 expressServer.listen(5000, () => console.log("runing on port 5000"));
 
+// offer will contain objects{}
 const offers = [
   // offerer username
   // offer
@@ -52,10 +53,14 @@ io.on("connection", (socket) => {
       answer: null,
       answerIceCandidates: [],
     });
-    console.log(newOffer);
+    console.log("NEW OFFER", newOffer);
 
     // sends out all connected sockets EXCPET the caller
     // -1 gives us the most recent offer which is the last offer in the array
     socket.broadcast.emit("newOfferAwaiting", offers.slice(-1));
+  });
+  socket.on("sendIceCandidateToSignalingServer", (iceCandidateObj) => {
+    const { iceCandidate, iceUsername, didIOffer } = iceCandidateObj;
+    console.log("iceCandidate", iceCandidate);
   });
 });
