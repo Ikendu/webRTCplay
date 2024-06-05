@@ -53,7 +53,11 @@ io.on("connection", (socket) => {
       answer: null,
       answerIceCandidates: [],
     });
-    console.log("NEW OFFER", newOffer);
+
+    // when a new client joins, if there is any offer available emit them to the user
+    if (offers.length > 0) {
+      socket.emit("availableOffer", offers);
+    }
 
     // sends out all connected sockets EXCPET the caller
     // -1 gives us the most recent offer which is the last offer in the array
@@ -61,6 +65,17 @@ io.on("connection", (socket) => {
   });
   socket.on("sendIceCandidateToSignalingServer", (iceCandidateObj) => {
     const { iceCandidate, iceUsername, didIOffer } = iceCandidateObj;
-    console.log("iceCandidate", iceCandidate);
+    // console.log("iceCandidate", iceCandidate);
+    if (didIOffer) {
+      const offerInOffers = offers.find(
+        (offer) => offer.offererUsername === iceUsername
+      );
+      if (offerInOffers) {
+        offerInOffers.offerIceCandidates.push(iceCandidate);
+        // come back to this...
+        // if the answerer is already here, emit the iceCandidates to the user
+      }
+    }
+    console.log("OFFERS", offers);
   });
 });
