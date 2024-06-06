@@ -82,7 +82,9 @@ const answerOffer = async (offerObj) => {
   // add the answer to the offerObj so the server knows which property this is related to
   offerObj.answer = answer;
   // emit the answer to the signallg server so that it can get to Client1
-  socket.emit("newAnswer", offerObj);
+  // socket.emit('newAnswer', offerObj)
+  // expect a response from the server with the already exisiting ICE candidate
+  const offerIceCandidates = await socket.emitWithAck("newAnswer", offerObj);
 };
 
 const addAnswer = async (offerObj) => {
@@ -103,7 +105,11 @@ const createPeerConnection = (offerObj) => {
     localStream.getTracks().forEach((track) => {
       peerConnection.addTrack(track, localStream);
     });
-    
+    // checker
+    peerConnection.addEventListener("signalingstatechange", (e) => {
+      console.log(e);
+      console.log("signaling state2", peerConnection.signalingState);
+    });
     peerConnection.addEventListener("icecandidate", (e) => {
       console.log(".........peer connection found!...........");
       console.log(e);
