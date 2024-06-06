@@ -13,7 +13,7 @@ const socket = io.connect("https://localhost:5000", {
 });
 
 const localVideoEl = document.querySelector("#local-video");
-const remoteVideo = document.querySelector("#remote-video");
+const remoteVideoEl = document.querySelector("#remote-video");
 
 let localStream; // for holding the local video streal
 let remoteStream; //  for holding the remote video stream
@@ -105,7 +105,10 @@ const createPeerConnection = (offerObj) => {
     //We can pass config object which may contain stun server
     //which will fetch us iceCandidate
     peerConnection = await new RTCPeerConnection(peerConfiguration);
-    //getting and adding tracks to the peerConnection
+    remoteStream = new MediaStream();
+    remoteVideoEl.srcObject = remoteStream;
+
+    //add local tracks so that they can be sent once connection is established
     localStream.getTracks().forEach((track) => {
       peerConnection.addTrack(track, localStream);
     });
@@ -114,10 +117,10 @@ const createPeerConnection = (offerObj) => {
       console.log(e);
       console.log("signaling state2", peerConnection.signalingState);
     });
+
     peerConnection.addEventListener("icecandidate", (e) => {
       console.log(".........peer connection found!...........");
       console.log(e);
-
       //emit the ice candidate of a user
       if (e.candidate) {
         socket.emit("sendIceCandidateToSignalingServer", {
@@ -127,6 +130,16 @@ const createPeerConnection = (offerObj) => {
         });
       }
     });
+
+    peerConnection.addEventListener("track", (e) => {
+      console.log("Remote track event coming in");
+      console.log(e);
+      e.streams[0].getTracks().forEach((track) => {
+        remoteStream.addTrack(track, remoteStream);
+        console.log("...Here is an exiting moment...");
+      });
+    });
+
     if (offerObj) {
       // wont be set when called from call()
       // will be set when called from answerOffer()
