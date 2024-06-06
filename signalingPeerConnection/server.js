@@ -78,14 +78,12 @@ io.on("connection", (socket) => {
     }
     // we found the matching socket to we can emit to it
     const socketIdToanswer = socketToAnswer.socketID;
-
     // we find the offer to update so we can it
     const offerToUpdate = offers.find(
       (offer) => offer.offererUsername === offerObj.offererUsername
     );
-    offerToUpdate.answer = answer;
+    offerToUpdate.answer = offerObj.answer;
     offerToUpdate.answererUsername = username;
-
     // socket.io has the .to() which allows emitting to a room
     // every socket has its own room
     socket.to(socketIdToanswer).emit("answerResponse", offerToUpdate);

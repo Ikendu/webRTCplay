@@ -85,6 +85,14 @@ const answerOffer = async (offerObj) => {
   socket.emit("newAnswer", offerObj);
 };
 
+const addAnswer = async (offerObj) => {
+  // addAnswer is call in socketListeners when an ansResponse is emited
+  // at this point the offer and the anser have been exchange
+  // now Client1 needs to set the remote
+  await peerConnection.setRemoteDescription(offerObj.answer);
+  console.log("signaling state", peerConnection.signalingState);
+};
+
 const createPeerConnection = (offerObj) => {
   return new Promise(async (resolve, reject) => {
     //RTCPeerConnection creates the connection
@@ -95,6 +103,7 @@ const createPeerConnection = (offerObj) => {
     localStream.getTracks().forEach((track) => {
       peerConnection.addTrack(track, localStream);
     });
+    
     peerConnection.addEventListener("icecandidate", (e) => {
       console.log(".........peer connection found!...........");
       console.log(e);

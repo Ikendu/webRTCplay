@@ -11,6 +11,11 @@ socket.on("newOfferAwaiting", (offers) => {
   createOffEls(offers);
 });
 
+socket.on("answerResponse", (offerObj) => {
+  console.log("offer from answer response", offerObj);
+  addAnswer(offerObj);
+});
+
 function createOffEls(offers) {
   const answerEl = document.querySelector("#answer");
   offers.forEach((offer) => {
