@@ -79,6 +79,10 @@ const answerOffer = async (offerObj) => {
   const answer = await peerConnection.createAnswer({});
   peerConnection.setLocalDescription(answer); // Client2 uses the answer as the local description
   console.log("the answer", answer);
+  // add the answer to the offerObj so the server knows which property this is related to
+  offerObj.answer = answer;
+  // emit the answer to the signallg server so that it can get to Client1
+  socket.emit("newAnswer", offerObj);
 };
 
 const createPeerConnection = (offerObj) => {

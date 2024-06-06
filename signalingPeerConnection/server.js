@@ -66,6 +66,31 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("newOfferAwaiting", offers.slice(-1));
   });
 
+  socket.on("newAnswer", (offerObj) => {
+    console.log("OFFEROBJ", offerObj);
+    // emit the answer (offerObj) back to Client 1
+    // in order to that we need Client1 socketID
+    const socketToAnswer = connectedSockets.find(
+      (skt) => skt.username === offerObj.offererUsername
+    );
+    if (!socketToAnswer) {
+      return;
+    }
+    // we found the matching socket to we can emit to it
+    const socketIdToanswer = socketToAnswer.socketID;
+
+    // we find the offer to update so we can it
+    const offerToUpdate = offers.find(
+      (offer) => offer.offererUsername === offerObj.offererUsername
+    );
+    offerToUpdate.answer = answer;
+    offerToUpdate.answererUsername = username;
+
+    // socket.io has the .to() which allows emitting to a room
+    // every socket has its own room
+    socket.to(socketIdToanswer).emit("answerResponse", offerToUpdate);
+  });
+
   socket.on("sendIceCandidateToSignalingServer", (iceCandidateObj) => {
     const { iceCandidate, iceUsername, didIOffer } = iceCandidateObj;
     // console.log("iceCandidate", iceCandidate);
