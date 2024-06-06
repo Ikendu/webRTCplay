@@ -85,6 +85,11 @@ const answerOffer = async (offerObj) => {
   // socket.emit('newAnswer', offerObj)
   // expect a response from the server with the already exisiting ICE candidate
   const offerIceCandidates = await socket.emitWithAck("newAnswer", offerObj);
+  offerIceCandidates.forEach((c) => {
+    peerConnection.addIceCandidate(c);
+    console.log("=====Added iceCandidate=====");
+  });
+  console.log("offerIceCandidate", offerIceCandidates);
 };
 
 const addAnswer = async (offerObj) => {
@@ -130,6 +135,10 @@ const createPeerConnection = (offerObj) => {
     }
     resolve();
   });
+};
+
+const addNewIceCandidate = (iceCandidate) => {
+  peerConnection.addIceCandidate(iceCandidate);
 };
 
 const callEl = document
