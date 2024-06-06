@@ -21,35 +21,35 @@ let peerConnection; //  the connection that the two client use to talk
 let didIOffer = false; // boolean for checking offer
 
 // //get user media reusable function
-// const fetchUserMedia = () => {
-//   return new Promise(async (resolve, reject) => {
-//     try {
-//       const stream = await navigator.mediaDevices.getUserMedia({
-//         video: true,
-//         audio: true,
-//       });
-//       localVideoEl.srcObject = stream;
-//       localStream = stream;
-//       resolve();
-//     } catch (error) {
-//       console.log(error);
-//       reject();
-//     }
-//   });
-// };
-
-const fetchUserMedia = async () => {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true,
-    });
-    localVideoEl.srcObject = stream;
-    localStream = stream;
-  } catch (error) {
-    console.log(error);
-  }
+const fetchUserMedia = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      localVideoEl.srcObject = stream;
+      localStream = stream;
+      resolve();
+    } catch (error) {
+      console.log(error);
+      reject();
+    }
+  });
 };
+
+// const fetchUserMedia = async () => {
+//   try {
+//     const stream = await navigator.mediaDevices.getUserMedia({
+//       video: true,
+//       audio: true,
+//     });
+//     localVideoEl.srcObject = stream;
+//     localStream = stream;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 //when a client initiates a call
 const videoCall = async (e) => {
@@ -63,7 +63,6 @@ const videoCall = async (e) => {
     const offer = await peerConnection.createOffer();
     console.log(offer);
     peerConnection.setLocalDescription(offer);
-
     //sends offer to signalingServer
     socket.emit("newOffer", offer);
     didIOffer = true;
@@ -139,6 +138,7 @@ const createPeerConnection = (offerObj) => {
 
 const addNewIceCandidate = (iceCandidate) => {
   peerConnection.addIceCandidate(iceCandidate);
+  console.log("=====Added more iceCandidate=====");
 };
 
 const callEl = document

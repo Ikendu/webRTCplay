@@ -74,14 +74,19 @@ io.on("connection", (socket) => {
       (skt) => skt.username === offerObj.offererUsername
     );
     if (!socketToAnswer) {
+      console.log("No matching socket");
       return;
     }
-    // we found the matching socket to we can emit to it
+    // we found the matching socket so we can emit to it
     const socketIdToanswer = socketToAnswer.socketID;
     // we find the offer to update so we can it
     const offerToUpdate = offers.find(
       (offer) => offer.offererUsername === offerObj.offererUsername
     );
+    if (!offerToUpdate) {
+      console.log("No offerToUpdate");
+      return;
+    }
     // send back to the answerer all the iceCandidate we have already collected
     ackFunction(offerToUpdate.offerIceCandidates);
     offerToUpdate.answer = offerObj.answer;
